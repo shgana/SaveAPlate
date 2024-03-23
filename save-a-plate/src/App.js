@@ -1,22 +1,20 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import FoodEntryForm from './components/FoodEntryForm';
+import DisplayComponent from './components/DisplayComponent';
 
 function App() {
+  const [reductionPercentage, setReductionPercentage] = useState(0);
+
+  const handleFormSubmission = (foodData) => {
+    // TODO: Send data to backend and set reduction percentage
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <FoodEntryForm onSubmission={handleFormSubmission} />
+        <DisplayComponent reductionPercentage={reductionPercentage} />
       </header>
     </div>
   );
