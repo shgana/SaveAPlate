@@ -39,3 +39,32 @@
 .submit-btn:hover {
     background-color: #0056b3;
 }
+
+/* Add Item button */
+.add-item-btn {
+    margin-bottom: 20px;
+    background-color: #007bff;
+    color: white;
+}
+
+.add-item-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Food Entries Table */
+.food-entries-table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+.food-entries-table th,
+.food-entries-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.food-entries-table th {
+    background-color: #f2f2f2;
+}
