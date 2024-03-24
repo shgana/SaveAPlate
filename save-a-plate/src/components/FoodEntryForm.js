@@ -63,7 +63,7 @@ function FoodEntryForm({ onSubmission }) {
                 </table>
 
                 <button type="submit" className="submit-btn">Submit All</button>
-            </form>
+            </form>re
         </div>
     );
 }

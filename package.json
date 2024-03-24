@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "moment-timezone": "^0.5.45",
+    "react-calendar": "^4.8.0"
+  }
+}
