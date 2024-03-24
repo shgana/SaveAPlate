@@ -47,3 +47,50 @@ unique_items = day1_items - day2_items
 with open('food_items.txt', 'w') as file:
     for item in unique_items:
         file.write(item + '\n')
+
+import mysql.connector
+
+# Establish a connection to the MySQL database
+connection = mysql.connector.connect(
+    host="localhost",
+    user="your_username",
+    password="your_password",
+    database="WasteTrackerDB"
+)
+
+try:
+    # Create a cursor object to execute SQL queries
+    cursor = connection.cursor()
+
+    # Create the "PredictFood" table if it doesn't exist
+    create_table_query = """
+    CREATE TABLE IF NOT EXISTS PredictFood (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        food_name VARCHAR(255)
+    )
+    """
+    cursor.execute(create_table_query)
+
+    # Read the food items from the file
+    with open('food_items.txt', 'r') as file:
+        food_items = file.read().splitlines()
+
+    # Insert the food items into the "PredictFood" table
+    insert_query = "INSERT INTO PredictFood (food_name) VALUES (%s)"
+    for item in food_items:
+        cursor.execute(insert_query, (item,))
+
+    # Commit the changes to the database
+    connection.commit()
+
+    print("Food items inserted into the PredictFood table successfully.")
+
+except mysql.connector.Error as error:
+    print(f"Error: {error}")
+
+finally:
+    # Close the cursor and the database connection
+    if cursor:
+        cursor.close()
+    if connection:
+        connection.close()
