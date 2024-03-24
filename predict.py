@@ -13,8 +13,15 @@ csv_dir = '/workspaces/SaveAPlate'
 df_prod = pd.read_csv(os.path.join(csv_dir, 'production_logs.csv'), usecols=['id', 'food_item_id', 'quantity', 'day_of_week', 'students_present'])
 df_waste = pd.read_csv(os.path.join(csv_dir, 'waste_logs.csv'), usecols=['id', 'food_item_id', 'quantity', 'log_date', 'day_of_week', 'students_present'])
 
-# Read the PredictFood.csv file
-df_predict = pd.read_csv(os.path.join(csv_dir, 'PredictFood.csv'))
+# Generate random data for PredictFood.csv
+days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+num_rows = 100
+df_predict = pd.DataFrame({
+    'food_name': ['Food ' + str(i) for i in range(1, num_rows + 1)],
+    'day_of_week': np.random.choice(days, size=num_rows),
+    'students_present': np.random.randint(100, 500, size=num_rows),
+    'quantity': np.random.randint(10, 100, size=num_rows)
+})
 
 # Merge production and waste logs on food_item_id
 df_combined = pd.merge(df_prod, df_waste, on='food_item_id', how='left')
