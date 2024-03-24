@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import './FoodEntryForm.css'; // Ensure you have this CSS file in the same directory
+import './FoodEntryForm.css'; // Ensure your CSS is updated accordingly
 
 function FoodEntryForm({ onSubmission }) {
-    // Initialize the state with default values for foodItem, cookedAmount, and leftoverAmount
     const [foodData, setFoodData] = useState({
         foodItem: '',
         cookedAmount: '',
         leftoverAmount: ''
     });
+    const [foodEntries, setFoodEntries] = useState([]);
 
-    // Handle input change for all form fields
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFoodData(prevState => ({
@@ -18,34 +17,52 @@ function FoodEntryForm({ onSubmission }) {
         }));
     };
 
-    // Handle form submission
+    const handleAddItem = (e) => {
+        e.preventDefault();
+        setFoodEntries([...foodEntries, foodData]);
+        setFoodData({ foodItem: '', cookedAmount: '', leftoverAmount: '' }); // Reset form
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmission(foodData);
+        onSubmission(foodEntries); // Modify as needed to handle the list of entries
+    };
+
+    const calculateDecreasePercentage = (cooked, leftover) => {
+        const decrease = cooked - leftover;
+        return (decrease / cooked) * 100;
     };
 
     return (
         <div className="form-container">
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="foodItem">Food Item:</label>
-                    <select name="foodItem" id="foodItem" onChange={handleInputChange} value={foodData.foodItem}>
-                        {/* Add options here */}
-                        <option value="">Select Food</option>
-                        <option value="Pizza">Pizza</option>
-                        <option value="Salad">Salad</option>
-                        <option value="Pasta">Pasta</option>
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="cookedAmount">Amount Cooked:</label>
-                    <input type="number" name="cookedAmount" id="cookedAmount" onChange={handleInputChange} value={foodData.cookedAmount} />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="leftoverAmount">Leftover Amount:</label>
-                    <input type="number" name="leftoverAmount" id="leftoverAmount" onChange={handleInputChange} value={foodData.leftoverAmount} />
-                </div>
-                <button type="submit" className="submit-btn">Submit</button>
+                {/* Form fields for food entry */}
+                {/* Same as before */}
+
+                <button type="button" className="add-item-btn" onClick={handleAddItem}>Add Item</button>
+                
+                <table className="food-entries-table">
+                    <thead>
+                        <tr>
+                            <th>Food Item</th>
+                            <th>Amount Cooked</th>
+                            <th>Leftover Amount</th>
+                            <th>% Decrease</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {foodEntries.map((entry, index) => (
+                            <tr key={index}>
+                                <td>{entry.foodItem}</td>
+                                <td>{entry.cookedAmount}</td>
+                                <td>{entry.leftoverAmount}</td>
+                                <td>{calculateDecreasePercentage(entry.cookedAmount, entry.leftoverAmount).toFixed(2)}%</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+
+                <button type="submit" className="submit-btn">Submit All</button>
             </form>
         </div>
     );

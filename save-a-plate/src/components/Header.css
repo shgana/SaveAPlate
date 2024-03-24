@@ -15,3 +15,8 @@
 h1 {
     margin: 0; /* Remove default margin */
 }
+/* Header.css */
+.logo {
+    width: 200px; /* Set to the desired width, double the original size */
+    height: auto; /* This will ensure the aspect ratio is maintained */
+}
