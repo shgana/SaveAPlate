@@ -8,12 +8,17 @@ import numpy as np
 csv_dir = '/workspaces/SaveAPlate'
 
 # Read data from CSV files
-df_prod = pd.read_csv(os.path.join(csv_dir, 'production_logs.csv'))
-df_waste = pd.read_csv(os.path.join(csv_dir, 'waste_logs.csv'))
+df_prod = pd.read_csv(os.path.join(csv_dir, 'production_logs.csv'), usecols=['id', 'food_item_id', 'quantity', 'day_of_week', 'students_present'])
+df_waste = pd.read_csv(os.path.join(csv_dir, 'waste_logs.csv'), usecols=['id', 'food_item_id', 'quantity', 'log_date', 'day_of_week', 'students_present'])
 
-# Merge on food_item_id and date
-df_combined = pd.merge(df_prod, df_waste, left_on=['food_item_id', 'production_date'], right_on=['food_item_id', 'log_date'], how='left').fillna(0)
+# Merge on food_item_id
+df_combined = pd.merge(df_prod, df_waste, on='food_item_id', how='left')
+
+# Calculate waste_percentage
 df_combined['waste_percentage'] = (df_combined['quantity_y'] / df_combined['quantity_x']) * 100
+
+# Rename columns to remove suffixes
+df_combined.rename(columns={'day_of_week_x': 'day_of_week', 'students_present_x': 'students_present'}, inplace=True)
 
 # Assuming 'day_of_week' and 'students_present' are relevant features
 X = df_combined[['day_of_week', 'students_present']]
