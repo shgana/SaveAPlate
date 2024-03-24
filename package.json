@@ -2,5 +2,8 @@
   "dependencies": {
     "moment-timezone": "^0.5.45",
     "react-calendar": "^4.8.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }

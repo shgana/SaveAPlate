@@ -3,26 +3,42 @@ import './App.css';
 import Header from './components/Header';
 import FoodEntryForm from './components/FoodEntryForm';
 import DisplayComponent from './components/DisplayComponent';
+import CalendarComponent from './components/CalendarComponent';
+import ClockComponent from './components/ClockComponent';
 
 function App() {
-  // If you're planning to use the `setReductionPercentage` function later, keep it here.
-  // Otherwise, you can remove the state setter or comment it out as shown below:
-  // const [reductionPercentage, setReductionPercentage] = useState(0);
-  const [reductionPercentage] = useState(0);
-  
-  // For `setTimezone`, remove it if you're not using it
-  // const [timezone, setTimezone] = useState('EST'); // Remove or comment out if not used
+  // Removed unused `setReductionPercentage` and added `selectedDate`
+  const [reductionPercentage, setReductionPercentage] = useState(0);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const handleFormSubmission = (foodData) => {
-    // Implementation needed for form submission that may use `setReductionPercentage`
+  const handleDateChange = (newDate) => {
+    setSelectedDate(newDate);
+    // You can now use `selectedDate` to fetch data or for other logic
+  };
+
+  const handleFormSubmission = (foodEntries) => {
+    // Implementation logic for form submission
+    // For example, calculating the total reduction percentage (dummy implementation)
+    const totalCooked = foodEntries.reduce((acc, entry) => acc + Number(entry.cookedAmount), 0);
+    const totalLeftover = foodEntries.reduce((acc, entry) => acc + Number(entry.leftoverAmount), 0);
+    const reduction = totalCooked - totalLeftover;
+    const percentage = (reduction / totalCooked) * 100;
+    setReductionPercentage(percentage);
+    // After calculating, you may want to send this data to a backend or store it
   };
 
   return (
     <div className="App">
       <Header />
       <div className="content">
-        <FoodEntryForm onSubmission={handleFormSubmission} />
-        <DisplayComponent reductionPercentage={reductionPercentage} />
+        <div className="calendar-container">
+          <ClockComponent timezone="America/New_York" />
+          <CalendarComponent onDateChange={handleDateChange} />
+        </div>
+        <div className="main-content">
+          <FoodEntryForm onSubmission={handleFormSubmission} />
+          <DisplayComponent reductionPercentage={reductionPercentage} />
+        </div>
       </div>
     </div>
   );
