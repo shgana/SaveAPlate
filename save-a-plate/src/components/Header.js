@@ -5,7 +5,7 @@ const Header = () => {
     return (
         <div className="header">
             {/* Replace the src attribute with the path to your actual logo */}
-            <img src="logo.png" alt="SaveAPlate Logo" className="logo" />
+            <img src="../logo.png" alt="SaveAPlate Logo" className="logo" />
             <h1>SaveAPlate</h1>
         </div>
     );
