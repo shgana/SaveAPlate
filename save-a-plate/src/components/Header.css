@@ -1,0 +1,17 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    background-color: #0a0a0a; /* Dark background */
+    color: white; /* White text */
+    padding: 10px 20px;
+}
+
+.header .logo {
+    height: 50px; /* Adjust based on your logo's size */
+    margin-right: 20px; /* Space between the logo and the title */
+}
+
+h1 {
+    margin: 0; /* Remove default margin */
+}
