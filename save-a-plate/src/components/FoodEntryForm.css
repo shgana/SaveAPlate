@@ -5,6 +5,20 @@
     background: #f6f4f4;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    animation: fadeInAnimation ease 0.5s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .form-group {
@@ -15,6 +29,7 @@
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
+    color: #333;
 }
 
 .form-group input,
@@ -24,31 +39,31 @@
     border: 1px solid #ddd;
     border-radius: 4px;
     box-sizing: border-box;
+    transition: border 0.3s, box-shadow 0.3s;
 }
 
-.submit-btn {
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #009688;
+    box-shadow: 0 0 0 2px rgba(0, 150, 136, 0.2);
+}
+
+.submit-btn,
+.add-item-btn {
     width: 100%;
     padding: 10px;
-    background-color: #006531;
-    color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-}
-
-.submit-btn:hover {
-    background-color: #0056b3;
-}
-
-/* Add Item button */
-.add-item-btn {
-    margin-bottom: 20px;
     background-color: #007bff;
     color: white;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
+.submit-btn:hover,
 .add-item-btn:hover {
     background-color: #0056b3;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Food Entries Table */
@@ -56,6 +71,20 @@
     width: 100%;
     margin-bottom: 20px;
     border-collapse: collapse;
+    opacity: 0;
+    animation: fadeInTable 0.75s ease-out forwards;
+    animation-delay: 0.5s;
+}
+
+@keyframes fadeInTable {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .food-entries-table th,
@@ -63,8 +92,13 @@
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
+    transition: background-color 0.2s;
 }
 
 .food-entries-table th {
     background-color: #f2f2f2;
+}
+
+.food-entries-table tr:not(:first-child):hover {
+    background-color: #e7e7e7;
 }
