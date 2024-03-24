@@ -1,69 +1,44 @@
 import React, { useState } from 'react';
-import './FoodEntryForm.css'; // Ensure your CSS is updated accordingly
+import './FoodEntryForm.css';
 
-function FoodEntryForm({ onSubmission }) {
-    const [foodData, setFoodData] = useState({
-        foodItem: '',
-        cookedAmount: '',
-        leftoverAmount: ''
-    });
-    const [foodEntries, setFoodEntries] = useState([]);
+function FoodEntryForm() {
+    // Initialize foodEntries with 89 preset entries for food items.
+    const initialFoodEntries = Array.from({ length: 89 }, () => ({ foodItem: '' }));
+    const [foodEntries, setFoodEntries] = useState(initialFoodEntries);
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFoodData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
-    };
-
-    const handleAddItem = (e) => {
-        e.preventDefault();
-        setFoodEntries([...foodEntries, foodData]);
-        setFoodData({ foodItem: '', cookedAmount: '', leftoverAmount: '' }); // Reset form
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        onSubmission(foodEntries); // Modify as needed to handle the list of entries
-    };
-
-    const calculateDecreasePercentage = (cooked, leftover) => {
-        const decrease = cooked - leftover;
-        return (decrease / cooked) * 100;
+    const handleFoodItemChange = (index, value) => {
+        const updatedEntries = [...foodEntries];
+        updatedEntries[index].foodItem = value;
+        setFoodEntries(updatedEntries);
     };
 
     return (
         <div className="form-container">
-            <form onSubmit={handleSubmit}>
-                {/* Form fields for food entry */}
-                {/* Same as before */}
-
-                <button type="button" className="add-item-btn" onClick={handleAddItem}>Add Item</button>
-                
-                <table className="food-entries-table">
-                    <thead>
-                        <tr>
-                            <th>Food Item</th>
-                            <th>Amount Cooked</th>
-                            <th>Leftover Amount</th>
-                            <th>% Decrease</th>
+            <table className="food-entries-table">
+                <thead>
+                    <tr>
+                        <th>Food Item</th>
+                        <th>% Decrease</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {foodEntries.map((entry, index) => (
+                        <tr key={index}>
+                            <td>
+                                <input
+                                    type="text"
+                                    value={entry.foodItem}
+                                    onChange={(e) => handleFoodItemChange(index, e.target.value)}
+                                    placeholder="Enter Food Item"
+                                    required
+                                />
+                            </td>
+                            {/* As % Decrease is calculated in the backend, this column remains a placeholder */}
+                            <td>% Decrease Placeholder</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {foodEntries.map((entry, index) => (
-                            <tr key={index}>
-                                <td>{entry.foodItem}</td>
-                                <td>{entry.cookedAmount}</td>
-                                <td>{entry.leftoverAmount}</td>
-                                <td>{calculateDecreasePercentage(entry.cookedAmount, entry.leftoverAmount).toFixed(2)}%</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-
-                <button type="submit" className="submit-btn">Submit All</button>
-            </form>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 }
