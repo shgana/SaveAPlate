@@ -3,8 +3,7 @@ import './App.css';
 import Header from './components/Header';
 import FoodEntryForm from './components/FoodEntryForm';
 import DisplayComponent from './components/DisplayComponent';
-import CalendarComponent from './components/CalendarComponent';
-import ClockComponent from './components/ClockComponent';
+
 
 function App() {
   // If you're planning to use the `setReductionPercentage` function later, keep it here.

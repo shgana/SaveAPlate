@@ -20,7 +20,7 @@ df_predict = pd.DataFrame({
     'food_name': ['Food ' + str(i) for i in range(1, num_rows + 1)],
     'day_of_week': np.random.choice(days, size=num_rows),
     'students_present': np.random.randint(100, 500, size=num_rows),
-    'quantity': np.random.randint(10, 100, size=num_rows)
+    'quantity': np.random.randint(1, 100, size=num_rows)
 })
 
 # Merge production and waste logs on food_item_id
@@ -68,17 +68,19 @@ waste_stats = df_predictions.groupby(level=0)[['predicted_waste_percentage', 'qu
     'quantity': 'sum'
 })
 
-# Print statistics and quantity of food not wasted
-for i, stats in waste_stats.iterrows():
-    print(f"Index: {i}")
-    print(f"Minimum Predicted Waste Percentage: {stats['predicted_waste_percentage']['min']}%")
-    print(f"Maximum Predicted Waste Percentage: {stats['predicted_waste_percentage']['max']}%")
-    print(f"Mean Predicted Waste Percentage: {stats['predicted_waste_percentage']['mean']}%")
-    print(f"Median Predicted Waste Percentage: {stats['predicted_waste_percentage']['median']}%")
-    print(f"Standard Deviation of Predicted Waste Percentages: {stats['predicted_waste_percentage']['std']}")
+# Print statistics and quantity of food not wasted for the first 90 foods
+for i, stats in waste_stats.iloc[:90].iterrows():  # Limit to first 90 rows
+    #print(f"Index: {i}")
+    #print(f"Minimum Predicted Waste Percentage: {stats['predicted_waste_percentage']['min']}%")
+    #print(f"Maximum Predicted Waste Percentage: {stats['predicted_waste_percentage']['max']}%")
+    #print(f"Mean Predicted Waste Percentage: {stats['predicted_waste_percentage']['mean']}%")
+    #print(f"Median Predicted Waste Percentage: {stats['predicted_waste_percentage']['median']}%")
+    #print(f"Standard Deviation of Predicted Waste Percentages: {stats['predicted_waste_percentage']['std']}")
     
     mean_waste_percentage = stats['predicted_waste_percentage']['mean']
     total_quantity = stats['quantity']['sum']
     quantity_not_wasted = total_quantity * (1 - (mean_waste_percentage / 100))
-    print(f"Quantity of Food Not Wasted: {quantity_not_wasted}")
+    quantity_not_wasted_rounded = round(quantity_not_wasted, 2)
+    
+    print(f"{quantity_not_wasted_rounded}%")
     print()
