@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './FoodEntryForm.css'; // Ensure you have this CSS file in the same directory
 
 function FoodEntryForm({ onSubmission }) {
     // Initialize the state with default values for foodItem, cookedAmount, and leftoverAmount
@@ -24,23 +25,29 @@ function FoodEntryForm({ onSubmission }) {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Food Item:
-                <select name="foodItem" onChange={handleInputChange} value={foodData.foodItem}>
-                    {/* Add options here */}
-                </select>
-            </label>
-            <label>
-                Amount Cooked:
-                <input type="number" name="cookedAmount" onChange={handleInputChange} value={foodData.cookedAmount} />
-            </label>
-            <label>
-                Leftover Amount:
-                <input type="number" name="leftoverAmount" onChange={handleInputChange} value={foodData.leftoverAmount} />
-            </label>
-            <button type="submit">Submit</button>
-        </form>
+        <div className="form-container">
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label htmlFor="foodItem">Food Item:</label>
+                    <select name="foodItem" id="foodItem" onChange={handleInputChange} value={foodData.foodItem}>
+                        {/* Add options here */}
+                        <option value="">Select Food</option>
+                        <option value="Pizza">Pizza</option>
+                        <option value="Salad">Salad</option>
+                        <option value="Pasta">Pasta</option>
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="cookedAmount">Amount Cooked:</label>
+                    <input type="number" name="cookedAmount" id="cookedAmount" onChange={handleInputChange} value={foodData.cookedAmount} />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="leftoverAmount">Leftover Amount:</label>
+                    <input type="number" name="leftoverAmount" id="leftoverAmount" onChange={handleInputChange} value={foodData.leftoverAmount} />
+                </div>
+                <button type="submit" className="submit-btn">Submit</button>
+            </form>
+        </div>
     );
 }
 
