@@ -3,13 +3,13 @@
     align-items: center;
     justify-content: start;
     background-color: #006531; /* Dark background */
-    color: white; /* White text */
-    padding: 10px 20px;
+    color: black; /* White text */
+    padding: 0px 5px;
 }
 
 .header .logo {
-    height: 50px; /* Adjust based on your logo's size */
-    margin-right: 20px; /* Space between the logo and the title */
+    height: 100px; /* Adjust based on your logo's size */
+    margin-right: 0px; /* Space between the logo and the title */
 }
 
 h1 {
