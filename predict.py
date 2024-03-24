@@ -1,28 +1,19 @@
-import mysql.connector
+import os
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error
+import numpy as np
 
-# Connect to the database
-config = {
-    'host': '127.0.0.1',
-    'user': 'root',
-    'password': 'Joshua@529',
-    'database': '`WasteTrackerDB`'
-}
-cnx = mysql.connector.connect(**config)
+csv_dir = '/workspaces/SaveAPlate'
 
-# Fetch production and waste logs
-query_prod = "SELECT food_item_id, SUM(quantity) as total_produced, production_date FROM production_logs GROUP BY food_item_id, production_date"
-query_waste = "SELECT food_item_id, SUM(quantity) as total_wasted, log_date FROM waste_logs GROUP BY food_item_id, log_date"
-
-df_prod = pd.read_sql(query_prod, cnx)
-df_waste = pd.read_sql(query_waste, cnx)
+# Read data from CSV files
+df_prod = pd.read_csv(os.path.join(csv_dir, 'production_logs.csv'))
+df_waste = pd.read_csv(os.path.join(csv_dir, 'waste_logs.csv'))
 
 # Merge on food_item_id and date
 df_combined = pd.merge(df_prod, df_waste, left_on=['food_item_id', 'production_date'], right_on=['food_item_id', 'log_date'], how='left').fillna(0)
-df_combined['waste_percentage'] = (df_combined['total_wasted'] / df_combined['total_produced']) * 100
+df_combined['waste_percentage'] = (df_combined['quantity_y'] / df_combined['quantity_x']) * 100
 
 # Assuming 'day_of_week' and 'students_present' are relevant features
 X = df_combined[['day_of_week', 'students_present']]
@@ -40,11 +31,24 @@ predictions = model.predict(X_test)
 mae = mean_absolute_error(y_test, predictions)
 print(f"Mean Absolute Error: {mae}")
 
-# Fetch future data
-query_future = "SELECT day_of_week, students_present FROM PredictFood"
-df_future = pd.read_sql(query_future, cnx)
+# Read future data from CSV
+df_future = pd.read_csv(os.path.join(csv_dir, 'PredictFood.csv'))
 
 # Predict future waste percentages
 future_predictions = model.predict(df_future)
 
-# You can then calculate the range of predicted waste percentages and analyze further
+# Convert predictions to a NumPy array for easier manipulation
+predicted_waste_percentages = np.array(future_predictions)
+
+# Basic statistics
+min_waste = np.min(predicted_waste_percentages)
+max_waste = np.max(predicted_waste_percentages)
+mean_waste = np.mean(predicted_waste_percentages)
+median_waste = np.median(predicted_waste_percentages)
+std_deviation = np.std(predicted_waste_percentages)
+
+print(f"Minimum Predicted Waste Percentage: {min_waste}%")
+print(f"Maximum Predicted Waste Percentage: {max_waste}%")
+print(f"Mean Predicted Waste Percentage: {mean_waste}%")
+print(f"Median Predicted Waste Percentage: {median_waste}%")
+print(f"Standard Deviation of Predicted Waste Percentages: {std_deviation}")
