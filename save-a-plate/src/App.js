@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import Header from './components/Header'; // Import the Header component
 import FoodEntryForm from './components/FoodEntryForm';
 import DisplayComponent from './components/DisplayComponent';
 
@@ -12,10 +13,11 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <Header /> {/* Include the Header at the top */}
+      <div className="content">
         <FoodEntryForm onSubmission={handleFormSubmission} />
         <DisplayComponent reductionPercentage={reductionPercentage} />
-      </header>
+      </div>
     </div>
   );
 }

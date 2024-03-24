@@ -1,8 +1,8 @@
 .form-container {
     max-width: 400px;
     margin: auto;
-    padding: 20px;
-    background: #0a0a0a;
+    padding: 30px;
+    background: #f6f4f4;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -29,7 +29,7 @@
 .submit-btn {
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: #006531;
     color: white;
     border: none;
     border-radius: 4px;
@@ -38,4 +38,33 @@
 
 .submit-btn:hover {
     background-color: #0056b3;
+}
+
+/* Add Item button */
+.add-item-btn {
+    margin-bottom: 20px;
+    background-color: #007bff;
+    color: white;
+}
+
+.add-item-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Food Entries Table */
+.food-entries-table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+.food-entries-table th,
+.food-entries-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.food-entries-table th {
+    background-color: #f2f2f2;
 }
